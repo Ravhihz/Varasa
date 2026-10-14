@@ -1,17 +1,29 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
     rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
+      '*.css': {
+        loaders: ['@tailwindcss/turbopack'],
+        as: '*.css',
       },
     },
   },
-};
 
-export default nextConfig;
+  images: {
+    remotePatterns: [
+      {
+        // Supabase Storage — replace <project-ref> with your actual project ref
+        // e.g. 'abcdefghijklmnop.supabase.co'
+        // This is set via NEXT_PUBLIC_SUPABASE_URL in .env.local
+        protocol: 'https',
+        hostname: '*.supabase.co',
+        pathname: '/storage/v1/object/public/**',
+      },
+    ],
+  },
+}
+
+export default nextConfig
