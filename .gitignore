@@ -30,15 +30,16 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files — ignore local secrets, but keep .env.example in source control
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.production
+# env files — ignore secrets, but keep the documented template in source control
+.env
+.env.*
+!.env.example
 
 # vercel
 .vercel
+
+# supabase local CLI state
+/supabase/.temp/
 
 # typescript
 *.tsbuildinfo
