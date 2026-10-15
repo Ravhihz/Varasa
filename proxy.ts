@@ -26,7 +26,11 @@ export async function proxy(request: NextRequest) {
 
   // Redirect authenticated users away from login page
   if (isLoginRoute && user) {
-    return NextResponse.redirect(new URL('/admin', request.url))
+    // Only redirect if user is actually an admin to prevent loop
+    const isAdmin = (user as { app_metadata?: { role?: string } }).app_metadata?.role === 'admin'
+    if (isAdmin) {
+      return NextResponse.redirect(new URL('/admin', request.url))
+    }
   }
 
   return supabaseResponse

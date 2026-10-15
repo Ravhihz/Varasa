@@ -8,8 +8,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-export const instant = false
-
 async function getDashboardStats() {
   const supabase = await createClient()
 
@@ -37,7 +35,7 @@ export default async function AdminDashboardPage() {
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Welcome back. Here's an overview of your content.
+          Welcome back. Here&apos;s an overview of your content.
         </p>
       </div>
 

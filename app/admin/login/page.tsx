@@ -6,9 +6,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-// Login page reads cookies to check session state — opt out of prerendering.
-export const instant = false
-
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/40 px-4">

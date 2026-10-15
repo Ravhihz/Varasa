@@ -1,6 +1,5 @@
-// Login page has its own layout — no admin sidebar/header.
-// The auth check in app/admin/layout.tsx is bypassed here
-// because middleware redirects unauthenticated users TO this page.
+// Login is outside the protected (dashboard) route group, so it renders
+// without the admin sidebar and without the dashboard authorization check.
 export default function LoginLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }

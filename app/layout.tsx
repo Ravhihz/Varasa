@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { Toaster } from '@/components/ui/sonner'
+import { absoluteUrl, SITE_URL } from '@/lib/utils/site'
 import './globals.css'
 
 const geistSans = Geist({
@@ -12,10 +14,8 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://varasa.id'
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Varasa',
     template: '%s | Varasa',
@@ -23,15 +23,17 @@ export const metadata: Metadata = {
   description:
     'Publikasi digital tentang bisnis, entrepreneurship, dan digitalisasi UMKM Indonesia.',
   icons: {
-    icon: '/Logo.png',
-    shortcut: '/Logo.png',
-    apple: '/Logo.png',
+    icon: '/varasa.png',
+    shortcut: '/varasa.png',
+    apple: '/varasa.png',
   },
   openGraph: {
     type: 'website',
+    title: 'Varasa',
+    description: 'Publikasi digital tentang bisnis, entrepreneurship, dan digitalisasi UMKM Indonesia.',
     locale: 'id_ID',
     siteName: 'Varasa',
-    url: siteUrl,
+    url: SITE_URL,
     images: [{ url: '/Logo.png' }],
   },
   twitter: {
@@ -41,6 +43,7 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  alternates: { canonical: absoluteUrl('/') },
 }
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
@@ -49,7 +52,10 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       lang="id"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Toaster richColors closeButton />
+      </body>
     </html>
   )
 }

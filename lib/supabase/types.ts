@@ -17,21 +17,55 @@ export interface Database {
         Row: Author
         Insert: AuthorInsert
         Update: AuthorUpdate
+        Relationships: []
       }
       categories: {
         Row: Category
         Insert: CategoryInsert
         Update: CategoryUpdate
+        Relationships: []
       }
       articles: {
         Row: Article
         Insert: ArticleInsert
         Update: ArticleUpdate
+        Relationships: [
+          {
+            foreignKeyName: 'articles_author_id_fkey'
+            columns: ['author_id']
+            isOneToOne: false
+            referencedRelation: 'authors'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'article_categories_article_id_fkey'
+            columns: ['id']
+            isOneToOne: false
+            referencedRelation: 'article_categories'
+            referencedColumns: ['article_id']
+          },
+        ]
       }
       article_categories: {
         Row: ArticleCategory
         Insert: ArticleCategoryInsert
         Update: never
+        Relationships: [
+          {
+            foreignKeyName: 'article_categories_article_id_fkey'
+            columns: ['article_id']
+            isOneToOne: false
+            referencedRelation: 'articles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'article_categories_category_id_fkey'
+            columns: ['category_id']
+            isOneToOne: false
+            referencedRelation: 'categories'
+            referencedColumns: ['id']
+          },
+        ]
       }
     }
     Functions: {
@@ -40,6 +74,9 @@ export interface Database {
         Returns: boolean
       }
     }
+    Views: Record<string, never>
+    Enums: Record<string, never>
+    CompositeTypes: Record<string, never>
   }
 }
 
@@ -47,7 +84,7 @@ export interface Database {
 // Authors
 // ---------------------------------------------------------------------------
 
-export interface Author {
+export type Author = {
   id: string
   name: string
   slug: string
@@ -63,7 +100,7 @@ export type AuthorUpdate = Partial<AuthorInsert>
 // Categories
 // ---------------------------------------------------------------------------
 
-export interface Category {
+export type Category = {
   id: string
   name: string
   slug: string
@@ -78,7 +115,7 @@ export type CategoryUpdate = Partial<CategoryInsert>
 // Articles
 // ---------------------------------------------------------------------------
 
-export interface Article {
+export type Article = {
   id: string
   author_id: string
   title: string
@@ -107,7 +144,7 @@ export interface ArticleWithRelations extends Article {
 // Article Categories
 // ---------------------------------------------------------------------------
 
-export interface ArticleCategory {
+export type ArticleCategory = {
   article_id: string
   category_id: string
 }
@@ -118,7 +155,7 @@ export type ArticleCategoryInsert = ArticleCategory
 // Tiptap JSON document types
 // ---------------------------------------------------------------------------
 
-export interface TiptapDocument {
+export type TiptapDocument = {
   type: 'doc'
   content: TiptapNode[]
 }
@@ -136,7 +173,7 @@ export type TiptapNodeType =
 
 export type TiptapMarkType = 'bold' | 'italic' | 'link'
 
-export interface TiptapNode {
+export type TiptapNode = {
   type: TiptapNodeType
   attrs?: Record<string, unknown>
   content?: TiptapNode[]
@@ -144,7 +181,7 @@ export interface TiptapNode {
   text?: string
 }
 
-export interface TiptapMark {
+export type TiptapMark = {
   type: TiptapMarkType
   attrs?: Record<string, unknown>
 }

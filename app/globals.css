@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
@@ -128,3 +127,14 @@
     @apply font-sans;
   }
 }
+
+.admin-preview-content { color: var(--foreground); font-size: 1rem; line-height: 1.8; }
+.admin-preview-content p { margin: 0 0 1.25em; }
+.admin-preview-content h2, .admin-preview-content h3 { margin: 1.7em 0 0.6em; font-weight: 600; line-height: 1.25; }
+.admin-preview-content h2 { font-size: 1.65rem; }
+.admin-preview-content h3 { font-size: 1.3rem; }
+.admin-preview-content ul, .admin-preview-content ol { margin: 0 0 1.25em; padding-left: 1.5em; }
+.admin-preview-content ul { list-style: disc; }
+.admin-preview-content ol { list-style: decimal; }
+.admin-preview-content blockquote { margin: 1.5em 0; border-left: 3px solid var(--border); padding-left: 1em; font-style: italic; }
+.admin-preview-content img { max-width: 100%; height: auto; border-radius: 0.5rem; }

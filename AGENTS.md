@@ -36,7 +36,7 @@ Varasa is a custom-built editorial blog platform focused on Business & Entrepren
 - **No scope expansion**: Implement the defined MVP. Do not add features without explicit approval.
 - **Next.js 16 conventions**:
   - Use `proxy.ts` (not `middleware.ts`) — middleware was renamed to proxy in Next.js 16.
-  - Use `export const instant = false` on all admin layouts/pages to opt out of static prerendering. Admin routes read cookies and are fully dynamic.
+  - `export const instant` requires `cacheComponents: true` in next.config.ts. Since cacheComponents is disabled, do NOT use `instant` exports anywhere. Admin routes are made dynamic automatically by calling `cookies()` or `headers()` inside them.
   - Read `node_modules/next/dist/docs/` before writing any Next.js code.
 
 ## Important Files
