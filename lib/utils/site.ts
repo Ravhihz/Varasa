@@ -1,4 +1,4 @@
-const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://varasa.id'
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://varasa.biz.id'
 
 export const SITE_URL = new URL(configuredSiteUrl).origin
 
