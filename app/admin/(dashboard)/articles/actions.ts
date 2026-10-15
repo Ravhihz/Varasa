@@ -212,7 +212,7 @@ function parseArticleFormData(formData: FormData): ParsedArticle | { error: stri
   }
 
   const published_at = published_at_raw
-    ? new Date(published_at_raw).toISOString()
+    ? new Date(`${published_at_raw}T00:00:00+07:00`).toISOString()
     : null
 
   return { title, slug, excerpt, content_json, cover_image, status, seo_title, meta_description, published_at, category_ids }

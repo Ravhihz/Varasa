@@ -28,7 +28,7 @@ export default async function ArticlesPage({ searchParams }: { searchParams: Pro
 
   return <main id="main-content" className="page-shell content-page">
     <header className="page-heading"><p className="eyebrow">Arsip tulisan</p><h1>Artikel</h1><p>Wawasan dan panduan untuk menjalankan serta mengembangkan usaha.</p></header>
-    {visible.length ? <div className="article-board">{visible.map((article) => <ArticleCard key={article.id} article={article} />)}</div> : <div className="empty-state"><p>Belum ada artikel di halaman ini.</p><Link href="/articles">Kembali ke artikel terbaru</Link></div>}
+    {visible.length ? <div className="article-archive">{visible.map((article) => <ArticleCard key={article.id} article={article} />)}</div> : <div className="empty-state"><p>Belum ada artikel di halaman ini.</p><Link href="/articles">Kembali ke artikel terbaru</Link></div>}
     <nav className="pagination" aria-label="Navigasi halaman artikel">
       {page > 1 ? <Link rel="prev" href={page === 2 ? '/articles' : `/articles?page=${page - 1}`}>← Lebih baru</Link> : <span />}
       <span>Halaman {page}</span>

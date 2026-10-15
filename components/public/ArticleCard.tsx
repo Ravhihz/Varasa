@@ -8,7 +8,7 @@ export function ArticleCard({ article, featured = false }: { article: ArticleWit
     <article className={`article-card${featured ? ' article-card-featured' : ''}`}>
       <Link href={`/articles/${article.slug}`} className="article-card-image" aria-label={`Baca ${article.title}`}>
         {article.cover_image ? (
-          <Image src={article.cover_image} alt="" fill sizes={featured ? '(max-width: 700px) 100vw, 58vw' : '(max-width: 700px) 100vw, 33vw'} className="cover-image" />
+          <Image src={article.cover_image} alt="" fill sizes={featured ? '(max-width: 700px) 100vw, 58vw' : '(max-width: 700px) 100vw, 33vw'} className="cover-image" loading={featured ? 'eager' : 'lazy'} />
         ) : <span className="image-placeholder" aria-hidden="true">V.</span>}
       </Link>
       <div className="article-card-copy">

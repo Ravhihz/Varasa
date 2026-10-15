@@ -1,37 +1,30 @@
 import Link from 'next/link'
-import { ArticleCard } from '@/components/public/ArticleCard'
 import { FeaturedArticle } from '@/components/public/FeaturedArticle'
-import { getCategories, getPublishedArticles } from '@/lib/public-data'
+import { getPublishedArticles } from '@/lib/public-data'
+import { HomeArticleExplorer } from '@/components/public/HomeArticleExplorer'
+import { Reveal } from '@/components/public/Reveal'
+import { Button } from '@/components/ui/button'
 
 export default async function HomePage() {
-  const [articles, categories] = await Promise.all([
-    getPublishedArticles({ limit: 13 }),
-    getCategories(),
-  ])
+  const articles = await getPublishedArticles({ limit: 7 })
   const featured = articles[0]
   const latest = articles.slice(1, 7)
 
   return (
     <main id="main-content" className="page-shell">
-      <section className="home-intro">
+      <Reveal className="home-intro">
         <p className="eyebrow">Bisnis · Gagasan · Pertumbuhan</p>
         <h1>Bangun usaha dengan <em>lebih banyak wawasan.</em></h1>
         <p className="intro-copy">Cerita, strategi, dan panduan praktis untuk para pelaku usaha dan penggerak bisnis di Indonesia.</p>
-      </section>
-      {featured ? <FeaturedArticle article={featured} /> : <EmptyArticles />}
+        <Button asChild className="hero-cta" size="lg"><Link href="/articles">Jelajahi semua tulisan <span aria-hidden="true">↗</span></Link></Button>
+      </Reveal>
+      {featured ? <Reveal><FeaturedArticle article={featured} /></Reveal> : <EmptyArticles />}
       {latest.length > 0 && <section className="content-section">
         <SectionHeading title="Tulisan terbaru" href="/articles" />
-        <div className="article-grid">{latest.map((article) => <ArticleCard key={article.id} article={article} />)}</div>
+        <HomeArticleExplorer articles={latest} />
       </section>}
-      {categories.map((category) => <CategorySection key={category.id} category={category} />)}
     </main>
   )
-}
-
-async function CategorySection({ category }: { category: { id: string; name: string; slug: string } }) {
-  const articles = await getPublishedArticles({ categoryId: category.id, limit: 3 })
-  if (!articles.length) return null
-  return <section className="content-section"><SectionHeading title={category.name} href={`/categories/${category.slug}`} /><div className="article-grid">{articles.map((article) => <ArticleCard key={article.id} article={article} />)}</div></section>
 }
 
 function SectionHeading({ title, href }: { title: string; href: string }) {

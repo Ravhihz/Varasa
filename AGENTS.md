@@ -53,7 +53,7 @@ Varasa is a custom-built editorial blog platform focused on Business & Entrepren
 
 ## Migration Order
 
-Run migrations in order: 001 → 002 → 003 → 004 → 005
+Run migrations in order: 001 → 002 → 003 → 004 → 005 → 006 → 007
 
 ## Environment Variables
 

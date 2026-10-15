@@ -3,6 +3,19 @@ import type { Article, ArticleCategory, ArticleWithRelations, Author, Category }
 
 const ARTICLE_FIELDS = 'id, author_id, title, slug, excerpt, content_json, cover_image, status, seo_title, meta_description, published_at, created_at, updated_at'
 
+/** Publication dates are editorial calendar dates in Indonesia (WIB). */
+function getPublicationCutoff() {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Jakarta',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date())
+  const part = (type: Intl.DateTimeFormatPartTypes) => parts.find((item) => item.type === type)?.value ?? ''
+  const todayInJakarta = `${part('year')}-${part('month')}-${part('day')}`
+  return new Date(`${todayInJakarta}T23:59:59.999+07:00`).toISOString()
+}
+
 type ArticleOptions = {
   limit?: number
   offset?: number
@@ -28,6 +41,7 @@ export async function getPublishedArticles(options: ArticleOptions = {}): Promis
     .from('articles')
     .select(ARTICLE_FIELDS)
     .eq('status', 'published')
+    .lte('published_at', getPublicationCutoff())
     .order('published_at', { ascending: false, nullsFirst: false })
     .order('created_at', { ascending: false })
 
@@ -52,9 +66,11 @@ export async function getPublishedArticleBySlug(slug: string): Promise<ArticleWi
     .select(ARTICLE_FIELDS)
     .eq('slug', slug)
     .eq('status', 'published')
+    .lte('published_at', getPublicationCutoff())
     .maybeSingle()
   if (error || !data) return null
-  const [article] = await attachRelations([data as unknown as Article])
+  const articleData = data as unknown as Article
+  const [article] = await attachRelations([articleData])
   return article ?? null
 }
 

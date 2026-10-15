@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Toaster } from '@/components/ui/sonner'
+import { Analytics } from '@vercel/analytics/next'
 import { absoluteUrl, SITE_URL } from '@/lib/utils/site'
 import './globals.css'
 
@@ -16,34 +17,18 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: {
-    default: 'Varasa',
-    template: '%s | Varasa',
-  },
-  description:
-    'Publikasi digital tentang bisnis, entrepreneurship, dan digitalisasi UMKM Indonesia.',
-  icons: {
-    icon: '/varasa.png',
-    shortcut: '/varasa.png',
-    apple: '/varasa.png',
-  },
+  title: { default: 'Varasa', template: '%s | Varasa' },
+  description: 'Publikasi digital tentang bisnis, entrepreneurship, dan digitalisasi UMKM Indonesia.',
+  icons: { icon: '/varasa.png', shortcut: '/varasa.png', apple: '/varasa.png' },
   openGraph: {
-    type: 'website',
-    title: 'Varasa',
-    description: 'Publikasi digital tentang bisnis, entrepreneurship, dan digitalisasi UMKM Indonesia.',
+    type: 'website', title: 'Varasa', description: 'Publikasi digital tentang bisnis, entrepreneurship, dan digitalisasi UMKM Indonesia.',
     locale: 'id_ID',
-    siteName: 'Varasa',
-    url: SITE_URL,
-    images: [{ url: '/Logo.png' }],
+    siteName: 'Varasa', url: SITE_URL, images: [{ url: '/Logo.png' }],
   },
-  twitter: {
-    card: 'summary_large_image',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  twitter: { card: 'summary_large_image' },
+  robots: { index: true, follow: true },
   alternates: { canonical: absoluteUrl('/') },
+  other: { 'google-adsense-account': 'ca-pub-4673236810801627' },
 }
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
@@ -54,6 +39,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     >
       <body className="min-h-full flex flex-col">
         {children}
+        <Analytics />
         <Toaster richColors closeButton />
       </body>
     </html>

@@ -35,6 +35,8 @@ export function ArticleForm({ article, categories }: ArticleFormProps) {
   const [pendingStatus, setPendingStatus] = useState<'draft' | 'published'>('draft')
 
   const isEditing = !!article
+  const isScheduled = article?.status === 'published'
+    && Boolean(article.published_at && toDateInputValue(article.published_at) > toDateInputValue(new Date()))
 
   const boundAction = isEditing
     ? updateArticleAction.bind(null, article.id)
@@ -149,6 +151,7 @@ export function ArticleForm({ article, categories }: ArticleFormProps) {
               onImageUpload={uploadImage}
             />
           </div>
+
         </div>
 
         {/* Sidebar */}
@@ -157,8 +160,8 @@ export function ArticleForm({ article, categories }: ArticleFormProps) {
           <div className="rounded-lg border bg-card p-4 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium">Status</span>
-              <Badge variant={article?.status === 'published' ? 'default' : 'secondary'}>
-                {article?.status ?? 'draft'}
+              <Badge variant={article?.status === 'published' && !isScheduled ? 'default' : 'secondary'}>
+                {isScheduled ? 'scheduled' : article?.status ?? 'draft'}
               </Badge>
             </div>
             <Separator />
@@ -218,7 +221,7 @@ export function ArticleForm({ article, categories }: ArticleFormProps) {
               defaultValue={toDateInputValue(article?.published_at)}
               disabled={isPending}
             />
-            <p className="text-xs text-muted-foreground">Set manually or auto-filled on publish.</p>
+            <p className="text-xs text-muted-foreground">Scheduled articles go live at 00:00 WIB on this date. Leave empty to publish immediately.</p>
           </div>
 
           {/* Cover image */}

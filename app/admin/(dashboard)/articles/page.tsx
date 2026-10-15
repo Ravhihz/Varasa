@@ -5,7 +5,7 @@ import { requireAdmin } from '@/lib/supabase/auth'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Plus } from 'lucide-react'
-import { formatDate } from '@/lib/utils/date'
+import { formatDate, toDateInputValue } from '@/lib/utils/date'
 
 export const metadata: Metadata = {
   title: 'Articles',
@@ -55,6 +55,8 @@ export default async function AdminArticlesPage() {
       {articles && articles.length > 0 && (
         <div className="rounded-lg border divide-y">
           {articles.map((article) => {
+            const isScheduled = article.status === 'published'
+              && Boolean(article.published_at && toDateInputValue(article.published_at) > toDateInputValue(new Date()))
             const articleCategories = article.article_categories
               ? Array.isArray(article.article_categories) ? article.article_categories : [article.article_categories]
               : []
@@ -68,10 +70,10 @@ export default async function AdminArticlesPage() {
                   <div className="flex items-center gap-2">
                     <p className="font-medium text-sm truncate">{article.title}</p>
                     <Badge
-                      variant={article.status === 'published' ? 'default' : 'secondary'}
+                      variant={article.status === 'published' && !isScheduled ? 'default' : 'secondary'}
                       className="shrink-0 text-xs"
                     >
-                      {article.status}
+                      {isScheduled ? 'scheduled' : article.status}
                     </Badge>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
